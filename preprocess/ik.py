@@ -1,5 +1,4 @@
 import numpy as np
-import scipy.ndimage.filters as filters
 
 
 class MediapipeSkeleton:
@@ -64,7 +63,7 @@ class MediapipeSkeleton:
         self.offset = None
         self.initialized = False
 
-    def inverse_kinematics_np(self, pose, smooth_forward=False):
+    def inverse_kinematics_np(self, pose):
         # pose must be shape (batch_size, joints=33, 3)
         if not self.initialized:
             print('skeleton dnot initialized')
@@ -84,9 +83,6 @@ class MediapipeSkeleton:
 
         # forward (batch_size, 3)
         forward = np.cross(np.array([[0, 1, 0]]), across, axis=-1)
-        if smooth_forward:
-            forward = filters.gaussian_filter1d(forward, 20, axis=0, mode='nearest')
-            # forward (batch_size, 3)
         forward = forward / np.sqrt((forward**2).sum(axis=-1))[..., np.newaxis]
 
         '''Get Root Rotation'''
