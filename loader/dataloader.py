@@ -1,12 +1,10 @@
 import pandas as pd
 import pickle
 
-root_dir = f"/root/work/data/udip/keypoints"
-
 
 class DataLoader:
     
-    def __init__(self, path, keys=None):
+    def __init__(self, path, root_dir="./data/keypoints", keys=None):
         
         self.data = pd.read_csv(path)
         self.keypoints = {}
