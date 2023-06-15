@@ -9,4 +9,5 @@
 # Annotation Tool  
   We created Dance Evaluation App for annotation  
   Sample page is published at https://kazuhiro1999.github.io/Automatic-Evaluation-of-Dance-Movements/  
-  ![annotation tool](images/Dance Evaluation App.png)
+    
+  ![annotation tool](images/annotation_tool.png)
