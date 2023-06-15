@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dance Evaluation App</title>
+    <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+    <div id="header">
+      <div id="status"></div>
+      <button id="prev" class="button">◀Prev</button>
+      <button id="next" class="button">▶Next</button>   
+      <button id="panelButton" class="button">Evaluation</button>
+    </div>
+
+    <div id="videoContainer">
+      <video src="" id="video" controls></video>
+    </div>
+    
+    <div id="panel">
+      <button id="closePanel">⇲</button>
+      <form id="ratingForm">
+        <input type="hidden" id="id" name="id" value=0>
+        <input type="hidden" id="chapter" name="chapter" value=1>
+        <div id="ratings-container"></div>   
+        <button id="download">Download</button>        
+      </form>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
