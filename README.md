@@ -1,8 +1,9 @@
 # Automatic-Evaluation-of-Dance-Movements
   Comming Soon
 
-# 3D Dance Motion and Evaluation Dataset for Performance Analysis  
-  We published Dataset that includes dance videos, motions and evaluations.  
+# 3D Dance Motion and Evaluation Dataset  
+  We created Dataset for Dance Performance Analysis  
+  Dataset includes videos, motions and evaluations.  
   Subjects are students from elementary school to university who are learning dance at a dance studio.  
     
   Videos are not available now.    
