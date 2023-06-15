@@ -45,6 +45,9 @@ class DataGenerator(tf.keras.utils.Sequence):
         if self.method in ['contrastive, triplet']:
             self.keys.extend(self.reference_keys)
         self.info = list(itertools.product(self.keys, self.frame_splits))
+        self.scores = {}
+        for key in self.keys:
+            self.scores[key] = self.loader.load_score(key, self.item)
         self.on_epoch_end()
         
         
@@ -60,7 +63,7 @@ class DataGenerator(tf.keras.utils.Sequence):
             features = extract_features(keypoints3d_list)
             
             # score
-            score = self.loader.load_score(key, self.item)
+            score = self.scores[key]
             label = self.transform_label(score)
             
             X.append(features)
@@ -76,12 +79,12 @@ class DataGenerator(tf.keras.utils.Sequence):
         for info in batch_info:
             anchor_key, (start_frame, end_frame) = info
             is_mirror = np.random.choice([True, False])
-            if self.loader.data[self.loader.data['ID'] == anchor_key]['IsReference'].tolist()[0]:
-                positive_key = np.random.choice([key for key in self.keys if self.loader.load_score(key, self.item) > 4])
-                negative_key = np.random.choice([key for key in self.keys if self.loader.load_score(key, self.item) < 5])
+            if anchor_key in self.reference_keys:
+                positive_key = np.random.choice([key for key in self.keys if self.scores[key] > 4])
+                negative_key = np.random.choice([key for key in self.keys if self.scores[key] < 5])
             else:            
-                positive_key = np.random.choice([key for key in self.keys if abs(self.loader.load_score(key, self.item) - self.loader.load_score(anchor_key, self.item)) < 2])
-                negative_key = np.random.choice([key for key in self.keys if abs(self.loader.load_score(key, self.item) - self.loader.load_score(anchor_key, self.item)) > 1])
+                positive_key = np.random.choice([key for key in self.keys if abs(self.scores[key] - self.scores[anchor_key]) < 2])
+                negative_key = np.random.choice([key for key in self.keys if abs(self.scores[key] - self.scores[anchor_key]) > 1])
 
             # anchor
             keypoints3d_list = self.loader.load_keypoints3d(anchor_key, start_frame, end_frame)
@@ -119,7 +122,7 @@ class DataGenerator(tf.keras.utils.Sequence):
             features = extract_features(keypoints3d_list)
             anchor_inputs.append(features)
             
-            score = self.loader.load_score(anchor_key, self.item)
+            score = self.scores[anchor_key]
             label = self.transform_label(score)
             labels.append(label)
 
