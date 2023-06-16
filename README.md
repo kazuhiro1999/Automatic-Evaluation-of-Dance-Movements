@@ -6,7 +6,7 @@
   Dataset includes videos, motions and evaluations.  
   Subjects are students from elementary school to university who are learning dance at a dance studio.  
     
-  Videos are not available now.    
+  Videos are available at https://drive.google.com/uv?id=1gpFwfQfyTHlhG6PmXiqpz215XJ4dK7TY   
   Motion data is available at https://drive.google.com/uc?id=1DYGHbrxAEtDcVPCeM_oZyXNpEGZD4S8G  
   The evaluation(.csv) is available at https://drive.google.com/uc?id=1HhCZ1SrpI4E-5IE2cGAoJcP8LcyuVlyJ   
   
