@@ -3,6 +3,8 @@
     
 ## Dataset  
   This dance dataset was collected with the cooperation of students ranging from elementary school students to college students who attend a dance studio. The dataset includes video data, 3D motion data inferred from the videos, and evaluation data for the dance.  
+
+  <img src="images/dance_video_sample.gif" width="640px">
     
   The original dance performance videos are available at [here](https://drive.google.com/uc?id=1gpFwfQfyTHlhG6PmXiqpz215XJ4dK7TY).  
   Dance motion data is available at [here](https://drive.google.com/uc?id=1DYGHbrxAEtDcVPCeM_oZyXNpEGZD4S8G).  
