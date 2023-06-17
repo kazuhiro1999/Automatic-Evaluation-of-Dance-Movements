@@ -2,7 +2,7 @@
   Welcome to our project! Here, we develop AI models for evaluating dance performance using our unique dataset, Dance Database for Performance Analysis (DDPA). Explore our dataset, model training demos, and the dance evaluation annotation tool.  
     
 ## Dataset  
-  This dance dataset was collected with the cooperation of students ranging from elementary school students to college students who attend a dance studio. The dataset includes video data, 3D motion data inferred from the videos, and evaluation data for the dance.  
+  This dance dataset was collected with the cooperation of 18 students ranging from elementary school students to college students who attend a dance studio. The dataset includes video data, 3D motion data inferred from the videos, and evaluation data for the dance.  
 
   <img src="images/dance_video_sample.gif" width="640px">
     
