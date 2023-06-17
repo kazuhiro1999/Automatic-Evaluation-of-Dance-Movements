@@ -132,6 +132,7 @@ def extract_features(
     use_angler_velocity = False,
     use_acceleration = False,
     use_angler_acceleration = False,
+    use_quaternion = False,
     normalize = False):
     
     n_frames, n_joints, _ = keypoints3d_list.shape
@@ -153,20 +154,20 @@ def extract_features(
             features.append(position)
     
     if use_rotation or use_angler_velocity or use_angler_acceleration:
-        rotation = []
-        for keypoints3d in keypoints3d_list:
-            vectors = get_vectors(keypoints3d, normalize=normalize)
-            rotation.append(vectors)
-        rotation = np.array(rotation).reshape([n_frames, -1])
-        '''
-        # use quarternion
-        skel = MediapipeSkeleton()
-        avg_pose = np.mean(keypoints3d_list, axis=0) # Average pose.
-        skel.initialize(avg_pose)
-        # apply inverse kinematics
-        rotation = skel.inverse_kinematics_np(keypoints3d_list)
-        rotation = rotation.reshape([n_frames, -1])
-        '''
+        if use_quaternion:
+            skel = MediapipeSkeleton()
+            avg_pose = np.mean(keypoints3d_list, axis=0) # Average pose.
+            skel.initialize(avg_pose)
+            # apply inverse kinematics
+            rotation = skel.inverse_kinematics_np(keypoints3d_list)
+            rotation = rotation.reshape([n_frames, -1])
+        else:
+            rotation = []
+            for keypoints3d in keypoints3d_list:
+                vectors = get_vectors(keypoints3d, normalize=normalize)
+                rotation.append(vectors)
+            rotation = np.array(rotation).reshape([n_frames, -1])
+            
         if use_rotation:
             features.append(rotation)
         
@@ -257,3 +258,12 @@ class LMA:
         shape_change = np.diff(bounding_box, axis=0)
         shape_change = np.insert(shape_change, 0, 0, axis=0)  # Restore original shape
         return shape_change
+    
+    @staticmethod
+    def calculate_features(motion_data):
+        weight_features = LMA.calculate_weight(motion_data).reshape([-1,1])
+        space_features = LMA.calculate_space(motion_data).reshape([-1,1])
+        time_features = LMA.calculate_time(motion_data).reshape([-1,1])
+        shape_features = LMA.calculate_shape(motion_data)
+        features = np.concatenate([weight_features, space_features, time_features, shape_features], axis=1)
+        return features

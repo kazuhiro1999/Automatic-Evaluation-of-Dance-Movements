@@ -2,17 +2,18 @@ import numpy as np
 import tensorflow as tf
 import itertools
 
-from preprocess.feature_extraction import extract_features, data_augmentation
+from preprocess.feature_extraction import LMA, extract_features, data_augmentation
 
 
 class DataGenerator(tf.keras.utils.Sequence):
-    def __init__(self, loader, keys, reference_keys, frame_splits, item, label_transform, method='default', batch_size=16, shuffle=True):
+    def __init__(self, loader, keys, reference_keys, frame_splits, item, label_transform, input_type='default', method='default', batch_size=16, shuffle=True):
         self.loader = loader
         self.keys = keys
         self.reference_keys = reference_keys
         self.frame_splits = frame_splits
         self.item = item
         self.label_transform = label_transform
+        self.input_type = input_type
         self.method = method
         self.batch_size = batch_size
         self.shuffle = shuffle
@@ -60,7 +61,7 @@ class DataGenerator(tf.keras.utils.Sequence):
             # features
             keypoints3d_list = self.loader.load_keypoints3d(key, start_frame, end_frame)
             keypoints3d_list = data_augmentation(keypoints3d_list, alpha=0.05, is_mirror=is_mirror)
-            features = extract_features(keypoints3d_list)
+            features = self.extract_features(keypoints3d_list)
             
             # score
             score = self.scores[key]
@@ -89,19 +90,19 @@ class DataGenerator(tf.keras.utils.Sequence):
             # anchor
             keypoints3d_list = self.loader.load_keypoints3d(anchor_key, start_frame, end_frame)
             keypoints3d_list = data_augmentation(keypoints3d_list, alpha=0.05, is_mirror=is_mirror)
-            features = extract_features(keypoints3d_list)
+            features = self.extract_features(keypoints3d_list)
             anchor_inputs.append(features)
 
             # positives        
             keypoints3d_list = self.loader.load_keypoints3d(positive_key, start_frame, end_frame)
             keypoints3d_list = data_augmentation(keypoints3d_list, alpha=0.05, is_mirror=is_mirror)
-            features = extract_features(keypoints3d_list)
+            features = self.extract_features(keypoints3d_list)
             positive_inputs.append(features)
 
             # negatives        
             keypoints3d_list = self.loader.load_keypoints3d(negative_key, start_frame, end_frame)
             keypoints3d_list = data_augmentation(keypoints3d_list, alpha=0.05, is_mirror=is_mirror)
-            features = extract_features(keypoints3d_list)
+            features = self.extract_features(keypoints3d_list)
             negative_inputs.append(features)     
 
         return [np.array(anchor_inputs), np.array(positive_inputs), np.array(negative_inputs)], np.zeros((len(batch_info),))
@@ -119,7 +120,7 @@ class DataGenerator(tf.keras.utils.Sequence):
             # anchor
             keypoints3d_list = self.loader.load_keypoints3d(anchor_key, start_frame, end_frame)
             keypoints3d_list = data_augmentation(keypoints3d_list, alpha=0.05, is_mirror=is_mirror)
-            features = extract_features(keypoints3d_list)
+            features = self.extract_features(keypoints3d_list)
             anchor_inputs.append(features)
             
             score = self.scores[anchor_key]
@@ -129,11 +130,17 @@ class DataGenerator(tf.keras.utils.Sequence):
             # reference       
             keypoints3d_list = self.loader.load_keypoints3d(reference_key, start_frame, end_frame)
             keypoints3d_list = data_augmentation(keypoints3d_list, alpha=0.05, is_mirror=is_mirror)
-            features = extract_features(keypoints3d_list)
+            features = self.extract_features(keypoints3d_list)
             reference_inputs.append(features)
 
         return [np.array(anchor_inputs), np.array(reference_inputs)], np.array(labels)
-
+    
+    def extract_features(self, keypoints3d_list):
+        if self.input_type == 'LMA':
+            features = LMA.calculate_features(keypoints3d_list)
+        else:
+            features = extract_features(keypoints3d_list)
+        return features
     
     def transform_label(self, score):
         y = self.label_transform[score] 

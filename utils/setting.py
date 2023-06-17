@@ -39,7 +39,7 @@ def train_test_split(df, label, splits, test_split=0.2):
     # split by dancer
     splits = (0,) + splits + (10,)
     for i in range(len(splits)-1):
-        dancer = df[(splits[i] < df[label]) &(df[label] < splits[i+1])]['Dancer'].unique().tolist()
+        dancer = df[(splits[i] <= df[label]) &(df[label] < splits[i+1])]['Dancer'].unique().tolist()
         test_size = max(int(len(dancer) * test_split), 1)
         test = random.sample(dancer, test_size)
         
