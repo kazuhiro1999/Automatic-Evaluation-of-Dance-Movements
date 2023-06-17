@@ -32,19 +32,19 @@ def determine_split(counts, num_classes=3):
     return best_split_indices, best_split
 
 
-def train_test_split(df, label, splits, test_split=0.2):
-    train_keys = []
-    test_keys = []
+def train_test_split(data, item, splits, test_split=0.2):
+    test_id = []
     
     # split by dancer
     splits = (0,) + splits + (10,)
     for i in range(len(splits)-1):
-        dancer = df[(splits[i] <= df[label]) &(df[label] < splits[i+1])]['Dancer'].unique().tolist()
+        dancer = data[(splits[i] <= data[item]) &(data[item] < splits[i+1])]['Dancer'].unique().tolist()
         test_size = max(int(len(dancer) * test_split), 1)
         test = random.sample(dancer, test_size)
-        
-        train_keys.extend(df[df['Annotated'] & ~df['Dancer'].isin(test)]['ID'].tolist())
-        test_keys.extend(df[df['Annotated'] & df['Dancer'].isin(test)]['ID'].tolist())
+        test_id.extend(test)
+
+    train_keys = data[data['Annotated'] & ~data['Dancer'].isin(test_id)]['ID'].tolist()
+    test_keys = data[data['Annotated'] & data['Dancer'].isin(test_id)]['ID'].tolist()
         
     return train_keys, test_keys
 
