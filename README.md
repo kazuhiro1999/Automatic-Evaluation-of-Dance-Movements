@@ -48,3 +48,19 @@
   A sample of the annotation tool is available for use and can be accessed at [here](https://kazuhiro1999.github.io/Automatic-Evaluation-of-Dance-Movements/).  
     
   ![annotation tool](images/annotation_tool.png)
+
+## Citation  
+```bibtex
+@article{Esaki2024Efficient,
+    author = {Esaki, Kazuhiro and Nagao, Katashi},
+    title = {An Efficient Immersive Self-Training System for Hip-Hop Dance Performance with Automatic Evaluation Features},
+    journal = {Applied Sciences},
+    volume = {14},
+    number = {14},
+    pages = {5981},
+    year = {2024},
+    doi = {10.3390/app14145981},
+    publisher = {MDPI},
+    issn = {2076-3417}
+}
+```
