@@ -38,6 +38,11 @@
   All these evaluations are annotated by exparts on a scale of 1 to 10.  
   The evaluation data is available at [here](https://drive.google.com/uc?id=1HhCZ1SrpI4E-5IE2cGAoJcP8LcyuVlyJ).  
 
+## Model Inference
+  Inference Demo is available at Google Colaboratory  
+  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/kazuhiro1999/Automatic-Evaluation-of-Dance-Movements/blob/main/inference.ipynb)  
+
+
 ## Model Training  
   Training Demo is available at Google Colaboratory  
   [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/kazuhiro1999/Automatic-Evaluation-of-Dance-Movements/blob/main/train.ipynb)  
